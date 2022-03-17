@@ -1,32 +1,41 @@
 import React, {useState} from 'react';
 import './App.css';
-import {NewComponent} from "./components/NewComponent";
+import {InputButton} from "./components/InputButton";
+import {Input} from "./components/Input";
+import {Button} from "./components/Button";
 
 export type currencyType = 'All' | 'RUBLS' | 'Dollars'
 
+export type messageType = {
+    message: string
+}
+
 function App() {
-    const [money, setMoney] = useState([
-        {banknots: 'Dollars', value: 100, number: ' a1234567890'},
-        {banknots: 'Dollars', value: 50, number: ' z1234567890'},
-        {banknots: 'RUBLS', value: 100, number: ' w1234567890'},
-        {banknots: 'Dollars', value: 100, number: ' e1234567890'},
-        {banknots: 'Dollars', value: 50, number: ' c1234567890'},
-        {banknots: 'RUBLS', value: 100, number: ' r1234567890'},
-        {banknots: 'Dollars', value: 50, number: ' x1234567890'},
-        {banknots: 'RUBLS', value: 50, number: ' v1234567890'},
+    let [message, setMessage] = useState([
+        {message: 'message1'},
+        {message: 'message2'},
+        {message: 'message3'}
     ])
-    let [nameButton, setNameButton] = useState<currencyType>('All')
-    let currentMoney = money
-    if (nameButton === 'RUBLS') {currentMoney = money.filter((filtredMoney)=>filtredMoney.banknots==='RUBLS')}
-    if (nameButton === 'Dollars') {currentMoney = money.filter((filtredMoney)=>filtredMoney.banknots==='Dollars')}
-    const onClickHandler = (currency: currencyType) => {
-        setNameButton(currency)
+    let [title, setTitle] = useState('')
+    const updateMessage = (title: string) => {
+        setMessage([{message: title}, ...message])
+        setTitle('')
     }
+
     return (
         <>
-           <NewComponent currentMoney={currentMoney} onClickHandler={onClickHandler}/>
-        </>
+            <div>
+               {/*<InputButton updateMessage={updateMessage}/>*/}
+                <Input title={title} setTitle={setTitle}/>
+                <Button name={'+'} callBack={()=>updateMessage(title)}/>
+                {message.map((el, index)=>{
+                    return (
+                        <div key={index}>{el.message}</div>
+                    )
+                })}
+            </div>
 
+        </>
     );
 }
 
