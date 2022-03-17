@@ -1,30 +1,41 @@
+import React from "react";
+import {currencyType} from "../App";
 
-
-export const NewComponent = () => {
+type NewComponentPropsType = {
+    currentMoney: Array<MoneyType>,
+    onClickHandler: (currency: currencyType)=>void
+}
+type MoneyType = {
+    banknots: string,
+    value: number,
+    number: string
+}
+export const NewComponent = (props: NewComponentPropsType) => {
     const topCars = [
-        {manufacturer:'BMW', model:'m5cs'},
-        {manufacturer:'Mercedes', model:'e63s'},
-        {manufacturer:'Audi', model:'rs6'}
+        {manufacturer: 'BMW', model: 'm5cs'},
+        {manufacturer: 'Mercedes', model: 'e63s'},
+        {manufacturer: 'Audi', model: 'rs6'}
     ]
     return (
         <>
-            <table>
-                <tr>
-                    <th>index</th>
-                    <th>manufacturer</th>
-                    <th>model</th>
-                </tr>
-                {topCars.map((topCars,index)=>{
+            <ul>
+                {props.currentMoney.map((objFromMoneyArr, index) => {
                     return (
-                        <tr>
-                            <td>{index+1}</td>
-                            <td>{topCars.manufacturer}</td>
-                            <td>{topCars.model}</td>
-                        </tr>
+                        <li key={index}>
+                            <span>{objFromMoneyArr.banknots}</span>
+                            <span>{objFromMoneyArr.value}</span>
+                            <span>{objFromMoneyArr.number}</span>
+                        </li>
                     )
-                })}
+                })
+                }
+            </ul>
+            <div>
+                <button onClick={() => props.onClickHandler('All')}>All</button>
+                <button onClick={() => props.onClickHandler('RUBLS')}>RUBLS</button>
+                <button onClick={() => props.onClickHandler('Dollars')}>Dollars</button>
+            </div>
 
-            </table>
         </>
     )
 }

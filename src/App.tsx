@@ -1,35 +1,32 @@
 import React, {useState} from 'react';
 import './App.css';
 import {NewComponent} from "./components/NewComponent";
-import {Button} from "./components/Button";
+
+export type currencyType = 'All' | 'RUBLS' | 'Dollars'
 
 function App() {
-    const buttonFunc1 = (name: string, age: number) => {
-        alert(name + age)
-    }
-    const buttonFunc2 = (name: string, age: number) => {
-        alert(name + age)
-    }
-    const buttonFunc3 = () => {
-        alert("I am stupid button")
-    }
-    let [a, setA] = useState(1)
-    const onClickHandler = () => {
-      setA(a++)
-    }
-    const setZero = () => {
-      setA(a=0)
+    const [money, setMoney] = useState([
+        {banknots: 'Dollars', value: 100, number: ' a1234567890'},
+        {banknots: 'Dollars', value: 50, number: ' z1234567890'},
+        {banknots: 'RUBLS', value: 100, number: ' w1234567890'},
+        {banknots: 'Dollars', value: 100, number: ' e1234567890'},
+        {banknots: 'Dollars', value: 50, number: ' c1234567890'},
+        {banknots: 'RUBLS', value: 100, number: ' r1234567890'},
+        {banknots: 'Dollars', value: 50, number: ' x1234567890'},
+        {banknots: 'RUBLS', value: 50, number: ' v1234567890'},
+    ])
+    let [nameButton, setNameButton] = useState<currencyType>('All')
+    let currentMoney = money
+    if (nameButton === 'RUBLS') {currentMoney = money.filter((filtredMoney)=>filtredMoney.banknots==='RUBLS')}
+    if (nameButton === 'Dollars') {currentMoney = money.filter((filtredMoney)=>filtredMoney.banknots==='Dollars')}
+    const onClickHandler = (currency: currencyType) => {
+        setNameButton(currency)
     }
     return (
-        <div className="App">
-            <NewComponent/>
-            <Button name={"MyYouTubeChanel-1"} callBack={()=>buttonFunc1("VASYA", 21)}/>
-            <Button name={"MyYouTubeChanel-2"} callBack={()=>buttonFunc2("IVAN", 43)}/>
-            <Button name={"StupidButton"} callBack={buttonFunc3}/>
-            <div>{a}</div>
-            <button onClick={onClickHandler}>number</button>
-            <button onClick={setZero}>0</button>
-        </div>
+        <>
+           <NewComponent currentMoney={currentMoney} onClickHandler={onClickHandler}/>
+        </>
+
     );
 }
 
